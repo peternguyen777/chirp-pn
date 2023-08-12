@@ -58,8 +58,10 @@ const PostView = (props: PostWithUser) => {
 
 export default function Home() {
   const user = useUser();
-  const { data, isLoading } = api.posts.getAll.useQuery();
+  const result = api.posts.getAll.useQuery();
+  console.log(result);
 
+  const { data, isLoading } = result;
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Something went wrong...</div>;
 
