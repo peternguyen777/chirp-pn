@@ -1,15 +1,16 @@
-import { SignInButton, useUser } from "@clerk/nextjs";
-import Head from "next/head";
-import { api } from "~/utils/api";
-import type { RouterOutputs } from "~/utils/api";
+import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import Head from "next/head";
 import Image from "next/image";
+import type { RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
 
 dayjs.extend(relativeTime);
 
 const CreatePostWizard = () => {
   const { user } = useUser();
+  const { signOut } = useClerk();
 
   if (!user) return null;
 
@@ -21,6 +22,7 @@ const CreatePostWizard = () => {
         className="h-14 w-14 rounded-full"
         width={56}
         height={56}
+        onClick={() => signOut()}
       />
       <input
         placeholder="Type some emojis!"
@@ -58,10 +60,8 @@ const PostView = (props: PostWithUser) => {
 
 export default function Home() {
   const user = useUser();
-  const result = api.posts.getAll.useQuery();
-  console.log(result);
+  const { data, isLoading } = api.posts.getAll.useQuery();
 
-  const { data, isLoading } = result;
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Something went wrong...</div>;
 
@@ -83,7 +83,7 @@ export default function Home() {
             {user.isSignedIn && <CreatePostWizard />}
           </div>
           <div>
-            {data.map((fullPost) => (
+            {data?.map((fullPost) => (
               <PostView key={fullPost.post.id} {...fullPost} />
             ))}
           </div>
