@@ -11,6 +11,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <Head>
         <title>Chirp</title>
         <meta name="description" content="🧞" />
+        <meta name="theme-color" content="#000000" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Toaster position="bottom-center" />
