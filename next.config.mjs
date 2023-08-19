@@ -20,7 +20,7 @@ const config = {
     defaultLocale: "en",
   },
   /**
-   * If we use github CI, we can disable these checks in vercel and speed things up
+   * If we use github CI, we can disable these checks in vercel and speed things up.
    */
   typescript: {
     ignoreBuildErrors: true,
